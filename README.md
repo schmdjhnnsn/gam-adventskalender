@@ -34,6 +34,10 @@ Bereits angelegt: [Adventskalender – Türchen](https://docs.google.com/spreads
 - Kann das Sheet nicht geladen werden (nicht freigegeben, offline), werden eingebaute Beispieldaten angezeigt plus ein entsprechender Hinweis.
 - Optional: geöffnete Türchen werden pro Gerät gespeichert (`REMEMBER_OPENED`, localStorage) – die Sperre selbst bleibt immer datumsbasiert. Türchen-Anordnung über `SHUFFLE_DOORS` (feste Jahreszahl als Seed, damit die Reihenfolge im Dezember stabil bleibt).
 
+## Testen: Sperre per URL-Parameter deaktivieren
+
+Standardmäßig ist die Datumssperre aktiv. Mit `?sperre=aus` in der URL sind alle 24 Türchen sofort klickbar, z. B. `https://<user>.github.io/<repo>/?sperre=aus`. Ohne Parameter (oder mit `?sperre=an`) bleibt die Sperre datumsbasiert. Im Testmodus zeigt die Statuszeile einen entsprechenden Hinweis.
+
 ## Hinweise
 
 - Das Datum wird clientseitig gelesen und kann theoretisch vom Besucher manipuliert werden. Für ein privates Spaßprojekt unproblematisch; eine serverseitige Prüfung bräuchte ein Backend.
