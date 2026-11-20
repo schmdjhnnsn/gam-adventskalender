@@ -149,6 +149,11 @@ function adventDay(date) {
   return 0;
 }
 
+function lockDisabled() {
+  if (typeof window === 'undefined') return false;
+  return new URLSearchParams(window.location.search).get('sperre') === 'aus';
+}
+
 function daysBetween(a, b) {
   return Math.round((Date.UTC(b.year, b.month - 1, b.day) - Date.UTC(a.year, a.month - 1, a.day)) / 86400000);
 }
@@ -342,7 +347,7 @@ function createDoor(tag, data, today, opened, year) {
 
 async function init() {
   const date = berlinNow();
-  const today = adventDay(date);
+  const today = lockDisabled() ? 24 : adventDay(date);
   const { doors, notice } = await loadDoors();
   const byTag = new Map(doors.map(d => [d.tag, d]));
   if (notice) {
@@ -350,7 +355,9 @@ async function init() {
     n.textContent = notice;
     n.hidden = false;
   }
-  document.getElementById('status').textContent = statusLine(date, today);
+  document.getElementById('status').textContent = lockDisabled()
+    ? 'Testmodus: Datumssperre deaktiviert – alle 24 Türchen offen (?sperre=aus).'
+    : statusLine(date, today);
   document.getElementById('progress').textContent = today + ' von 24 Türchen freigeschaltet';
   const order = CONFIG.SHUFFLE_DOORS ? shuffledOrder(date.year) : Array.from({ length: 24 }, (_, i) => i + 1);
   const opened = CONFIG.REMEMBER_OPENED ? loadOpened(date.year) : new Set();
